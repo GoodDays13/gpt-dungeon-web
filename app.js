@@ -5,21 +5,21 @@ const messageForm = document.getElementById("message-form");
 const messageInput = document.getElementById("message");
 const messagesDiv = document.getElementById("messages");
 
-// // Set the height of the messages container
-// function setMessagesHeight() {
-//   const height = window.innerHeight - messageForm.offsetHeight;
-//   messagesDiv.style.height = `${height}px`;
-// }
+// Set the height of the messages container
+function setMessagesHeight() {
+  const height = window.innerHeight - messageForm.offsetHeight;
+  messagesDiv.style.height = `${height}px`;
+}
 
-// // Call setMessagesHeight on load and resize
-// window.addEventListener('DOMContentLoaded', setMessagesHeight);
-// window.addEventListener('resize', setMessagesHeight);
+// Call setMessagesHeight on load and resize
+window.addEventListener('DOMContentLoaded', setMessagesHeight);
+window.addEventListener('resize', setMessagesHeight);
 
-// // Submit the form
-// messageForm.addEventListener('submit', (event) => {
-//   event.preventDefault();
-//   // your code to handle the form submission goes here
-// });
+// Submit the form
+messageForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  // your code to handle the form submission goes here
+});
 
 
 function colorQuotes(message) {
