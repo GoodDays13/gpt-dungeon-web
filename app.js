@@ -38,7 +38,7 @@ function displayMessage(message) {
     }
 
     messageContainer.innerHTML = `<p>${colorQuotes(message.content)}</p>`;
-    messagesDiv.appendChild(messageContainer);
+    messagesDiv.insertBefore(messageContainer, messagesDiv.firstChild);
 }
 
 
@@ -48,7 +48,7 @@ function displayHistory() {
 }
 
 
-displayMessage({'role': 'assistant', 'content': 'Describe the kind of story that you want.'})
+displayMessage({ 'role': 'assistant', 'content': 'Describe the kind of story that you want.' })
 
 function handleFormSubmit(event) {
     event.preventDefault();
