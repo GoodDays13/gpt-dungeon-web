@@ -1,9 +1,5 @@
 // Initialize the history variable with some sample messages
-let history = [
-    { "role": "assistant", "content": "Hello, how can I assist you?" },
-    { "role": "user", "content": "What's your name?" },
-    { "role": "assistant", "content": "My name is \"Jake\"." }
-];
+let history = [];
 
 const messageForm = document.getElementById("message-form");
 const messageInput = document.getElementById("message");
@@ -52,7 +48,7 @@ function displayHistory() {
 }
 
 
-displayHistory();
+displayMessage({'role': 'assistant', 'content': 'Describe the kind of story that you want.'})
 
 function handleFormSubmit(event) {
     event.preventDefault();
@@ -70,7 +66,7 @@ function handleFormSubmit(event) {
         fetch('https://87f8-72-49-59-104.ngrok.io/getResponse', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ input: message, history: history })
+            body: JSON.stringify({ history: history })
         })
             .then(response => response.json())
             .then(data => {
