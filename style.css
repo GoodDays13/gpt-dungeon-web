@@ -1,7 +1,7 @@
 html,
 body {
     height: 100%;
-    margin: 0;
+    margin: auto;
     padding: 0;
     background-color: #1f1f1f;
     /* Set the background color of the page to dark gray */
@@ -9,6 +9,7 @@ body {
     /* Set the text color to light gray */
     font-family: sans-serif;
     /* Use a sans-serif font for the text */
+    max-width: 800px;
 }
 
 body {
@@ -72,7 +73,7 @@ form {
     padding: 5px;
 }
 
-form>* {
+form>input {
     flex: 1 1 auto;
 }
 
