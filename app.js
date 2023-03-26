@@ -47,8 +47,8 @@ function displayHistory() {
     history.forEach(displayMessage);
 }
 
-
-displayMessage({ 'role': 'assistant', 'content': 'Describe the kind of story that you want.' })
+history.push({ 'role': 'assistant', 'content': 'Describe the kind of story that you want.' })
+displayHistory()
 
 function handleFormSubmit(event) {
     event.preventDefault();
