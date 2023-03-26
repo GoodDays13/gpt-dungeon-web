@@ -1,0 +1,40 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    margin: 0;
+    padding: 10px;
+}
+
+#messages {
+    border: 1px solid black;
+    overflow: hidden;
+    padding: 5px;
+    flex-grow: 1;
+    max-height: calc(100vh - 120px);
+    margin: 5px;
+}
+
+form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px;
+}
+
+form>* {
+    flex: 1 1 auto;
+}
+
+form>button {
+    flex: 0 0 auto;
+}

@@ -1,8 +1,8 @@
 // Initialize the history variable with some sample messages
 let history = [
-    "Hello, how can I assist you?",
-    "What's your name?",
-    "AI assistant."
+    {"role": "assistant", "content": "Hello, how can I assist you?"},
+    {"role": "user", "content": "What's your name?"},
+    {"role": "assistant", "content": "My name is Jake."}
 ];
 
 const messageForm = document.getElementById("message-form");
@@ -15,8 +15,14 @@ function displayMessage(message) {
 
 function displayHistory() {
     messagesDiv.innerHTML = "";
-    history.forEach(displayMessage);
+    history.forEach(function(item) {
+        if (item.role === "assistant")
+            displayMessage(item.content);
+        else if (item.role === "user")
+        displayMessage("> " + item.content);
+    });
 }
+
 
 displayHistory();
 
@@ -24,25 +30,26 @@ function handleFormSubmit(event) {
     event.preventDefault();
     const message = messageInput.value.trim();
     if (message) {
-        history.push(message);
-        displayMessage(`You inputted: ${message}`);
+        history.push({"role": "user", "content": message});
+        displayMessage(`> ${message}`);
         messageInput.value = "";
 
         // Send input data to server and handle response
         fetch('http://localhost:5000/getResponse', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ input: message })
+            body: JSON.stringify({ input: message, history: history })
         })
             .then(response => response.json())
             .then(data => {
                 const response = data.response;
-                history.push(response);
+                history.push({"role": "assistant", "content": response});
                 displayMessage(response);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to bottom after displaying server response
             })
             .catch(error => console.error(error));
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
 }
+
 
 messageForm.addEventListener("submit", handleFormSubmit);
