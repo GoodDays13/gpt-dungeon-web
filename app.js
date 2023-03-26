@@ -67,7 +67,7 @@ function handleFormSubmit(event) {
         messageInput.disabled = true;
 
         // Send input data to server and handle response
-        fetch('http://localhost:5000/getResponse', {
+        fetch('http://72.49.59.104:5000/getResponse', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ input: message, history: history })
@@ -80,7 +80,12 @@ function handleFormSubmit(event) {
                 displayMessage(message);
                 //messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to bottom after displaying server response
             })
-            .catch(error => console.error(error))
+            .catch(error => {
+                console.error(error)
+                const errorMessage = { "role": "assistant", "content": error.message }
+                displayMessage(errorMessage);
+                history.pop()
+            })
             .finally(() => {
                 // Re-enable the message input field after the server responds or errors
                 messageInput.disabled = false;
