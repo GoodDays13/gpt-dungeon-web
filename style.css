@@ -124,3 +124,11 @@ button {
         line-height: 2.2;
     }
 }
+
+/* fix for mobile chrome-based browsers */
+@media screen and (max-width: 767px) {
+    body {
+        position: fixed;
+        width: 100%;
+    }
+}
