@@ -67,7 +67,7 @@ function handleFormSubmit(event) {
         messageInput.disabled = true;
 
         // Send input data to server and handle response
-        fetch('http://72.49.59.104:5000/getResponse', {
+        fetch('https://87f8-72-49-59-104.ngrok.io/getResponse', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ input: message, history: history })
