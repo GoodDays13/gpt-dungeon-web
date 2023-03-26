@@ -2,25 +2,53 @@
 let history = [
     { "role": "assistant", "content": "Hello, how can I assist you?" },
     { "role": "user", "content": "What's your name?" },
-    { "role": "assistant", "content": "My name is Jake." }
+    { "role": "assistant", "content": "My name is \"Jake\"." }
 ];
 
 const messageForm = document.getElementById("message-form");
 const messageInput = document.getElementById("message");
 const messagesDiv = document.getElementById("messages");
 
-function displayMessage(message) {
-    messagesDiv.insertAdjacentHTML("beforeend", `<p>${message}</p>`);
+function colorQuotes(message) {
+    let formattedMessage = '';
+    let quote = false;
+    for (let i = 0; i < message.length; i++) {
+        const character = message[i];
+        if (character !== '"') {
+            formattedMessage += character;
+            continue;
+        }
+        if (!quote) {
+            quote = true;
+            formattedMessage += '<span class="quote">"';
+        } else {
+            quote = false;
+            formattedMessage += '"</span>';
+        }
+    }
+    return formattedMessage
+
 }
+
+
+function displayMessage(message) {
+    const messageContainer = document.createElement("div");
+    messageContainer.classList.add("message");
+
+    if (message.role === "assistant") {
+        messageContainer.classList.add("assistant");
+    } else if (message.role === "user") {
+        messageContainer.classList.add("user");
+    }
+
+    messageContainer.innerHTML = `<p>${colorQuotes(message.content)}</p>`;
+    messagesDiv.appendChild(messageContainer);
+}
+
 
 function displayHistory() {
     messagesDiv.innerHTML = "";
-    history.forEach(function (item) {
-        if (item.role === "assistant")
-            displayMessage(item.content);
-        else if (item.role === "user")
-            displayMessage("> " + item.content);
-    });
+    history.forEach(displayMessage);
 }
 
 
@@ -30,8 +58,9 @@ function handleFormSubmit(event) {
     event.preventDefault();
     const message = messageInput.value.trim();
     if (message) {
-        history.push({ "role": "user", "content": message });
-        displayMessage(`> ${message}`);
+        const userMessage = { "role": "user", "content": message };
+        history.push(userMessage);
+        displayMessage(userMessage);
         messageInput.value = "";
 
         // Disable the message input field
@@ -46,9 +75,10 @@ function handleFormSubmit(event) {
             .then(response => response.json())
             .then(data => {
                 const response = data.response;
-                history.push({ "role": "assistant", "content": response });
-                displayMessage(response);
-                messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to bottom after displaying server response
+                const message = { "role": "assistant", "content": response }
+                history.push(message);
+                displayMessage(message);
+                //messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to bottom after displaying server response
             })
             .catch(error => console.error(error))
             .finally(() => {
