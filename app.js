@@ -77,6 +77,7 @@ function handleFormSubmit(event) {
         history.push(userMessage);
         displayMessage(userMessage);
         messageInput.value = "";
+        setInputHeight()
 
         // Disable the message input field
         messageInput.disabled = true;
@@ -110,7 +111,7 @@ function handleFormSubmit(event) {
 }
 
 messageInput.addEventListener('keypress', function (event) {
-    if (event.key === 'Enter' && !event.shiftKey) {
+    if (event.key === 'Enter' && !event.shiftKey && !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
         event.preventDefault(); // prevent line break
         handleFormSubmit(event); // process the form submission
     }
