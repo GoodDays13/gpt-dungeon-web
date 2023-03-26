@@ -5,6 +5,21 @@ const messageForm = document.getElementById("message-form");
 const messageInput = document.getElementById("message");
 const messagesDiv = document.getElementById("messages");
 
+function setInputHeight() {
+    const lineHeight = parseInt(getComputedStyle(messageInput).lineHeight);
+    const paddingTop = parseInt(getComputedStyle(messageInput).paddingTop);
+    const paddingBottom = parseInt(getComputedStyle(messageInput).paddingBottom);
+    const border = parseInt(getComputedStyle(messageInput).borderWidth);
+    const minHeight = lineHeight + paddingTop + paddingBottom + border * 2;
+
+    messageInput.style.height = `${minHeight}px`;
+    const height = Math.max(minHeight, messageInput.scrollHeight);
+    messageInput.style.height = `${height}px`;
+    const button = document.getElementById("button")
+    button.style.height = `${minHeight + parseInt(getComputedStyle(button).borderWidth)}px`
+}
+
+
 function colorQuotes(message) {
     let formattedMessage = '';
     let quote = false;
@@ -47,11 +62,15 @@ function displayHistory() {
     history.forEach(displayMessage);
 }
 
+setInputHeight()
 history.push({ 'role': 'assistant', 'content': 'Describe the kind of story that you want.' })
 displayHistory()
 
 function handleFormSubmit(event) {
     event.preventDefault();
+    if (messageInput.disabled) {
+        return; // do nothing if message input field is disabled
+    }
     const message = messageInput.value.trim();
     if (message) {
         const userMessage = { "role": "user", "content": message };
@@ -90,6 +109,15 @@ function handleFormSubmit(event) {
     }
 }
 
+messageInput.addEventListener('keypress', function (event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault(); // prevent line break
+        handleFormSubmit(event); // process the form submission
+    }
+});
 
+messageInput.addEventListener('input', function (event) {
+    setInputHeight()
+})
 
 messageForm.addEventListener("submit", handleFormSubmit);

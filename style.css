@@ -93,34 +93,30 @@ form {
     padding: 5px;
 }
 
-form>input {
+form>textarea {
     flex: 1 1 auto;
     font-size: 16px;
+    font-family: sans-serif;
     line-height: 1.5;
-    font-size: 16px;
-    line-height: 1.5;
+    resize: none;
+    padding-left: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-right: 4px;
 }
 
 form>button {
     flex: 0 0 auto;
+    align-self: flex-end;
 }
 
-input[type="text"] {
-    font-size: 16px;
-    line-height: 1.5;
-}
-
-button {
-    line-height: 1.7;
-}
-
-@media screen and (min-width: 768px) {
+/* @media screen and (min-width: 768px) {
     input[type="text"] {
         font-size: 18px;
-        line-height: 1.8;
+        height: auto;
     }
 
     button {
         line-height: 2.2;
     }
-}
+} */
