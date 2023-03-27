@@ -40,9 +40,7 @@ function colorQuotes(message) {
 }
 
 function formatMessage(message) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(message, "text/html");
-    const text = doc.body.textContent;
+    const text = message.replace(/</g, '&lt;')replace(/>/g, '&gt;');
     const out = colorQuotes(text).replace(/\n/g, "<br>")
     return out == '' ? '[error]' : out
 }
@@ -60,7 +58,7 @@ function displayMessage(message) {
 
     // Replace newlines with <br> tags
     const formattedMessage = formatMessage(message.content);
-    messageContainer.innerHTML = `<p>${formattedMessage}</p>`;
+    messageContainer.innerHTML = `<p class="content">${formattedMessage}</p>`;
     messagesDiv.insertBefore(messageContainer, messagesDiv.firstChild);
 }
 

@@ -98,7 +98,8 @@ h1 {
 }
 
 .message.user {
-    text-align: right;
+    max-width: calc(min(80%, 400px));
+    align-self: flex-end;
 }
 
 .message.user .content {
