@@ -106,8 +106,7 @@ function handleFormSubmit(event) {
     }
     const message = messageInput.value.trim();
     if (message) {
-        const userMessage = { "role": "user", "content": message };
-        displayMessage(userMessage);
+        displayMessage({ "role": "user", "content": message });
         messageInput.value = "";
 
         // Disable the message input field
@@ -117,7 +116,7 @@ function handleFormSubmit(event) {
         fetch('https://87f8-72-49-59-104.ngrok.io/getResponse', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: historyID, message: userMessage })
+            body: JSON.stringify({ id: historyID, message: message })
         })
             .then(response => response.json())
             .then(data => {
