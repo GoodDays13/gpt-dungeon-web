@@ -81,16 +81,13 @@ h1 {
     /* set the background color of the scrollbar thumb when hovering */
 }
 
-.message {
-    margin-bottom: 10px;
-}
-
 .message .content {
     background-color: #3e424c;
     border-radius: 5px;
     color: white;
     display: inline-block;
     padding: 10px;
+    margin-bottom: 0;
 }
 
 .message.assistant .content {
@@ -137,14 +134,3 @@ form>button {
     flex: 0 0 auto;
     align-self: flex-end;
 }
-
-/* @media screen and (min-width: 768px) {
-    input[type="text"] {
-        font-size: 18px;
-        height: auto;
-    }
-
-    button {
-        line-height: 2.2;
-    }
-} */
