@@ -76,7 +76,6 @@ function getCookie(name) {
 
 let historyID = getCookie('historyID');
 if (!historyID) historyID = ''
-console.log(`historyID: ${historyID}`)
 
 fetch('https://87f8-72-49-59-104.ngrok.io/getHistory', {
     method: 'POST',
@@ -87,6 +86,7 @@ fetch('https://87f8-72-49-59-104.ngrok.io/getHistory', {
     .then(data => {
         const response = data.response;
         historyID = response[0]
+        console.log(`historyID: ${historyID}`)
         document.cookie = `historyID=${historyID}`;
         displayHistory(response[1])
     })
@@ -108,6 +108,7 @@ function handleFormSubmit(event) {
     if (message) {
         displayMessage({ "role": "user", "content": message });
         messageInput.value = "";
+        setInputHeight()
 
         // Disable the message input field
         messageInput.disabled = true;
