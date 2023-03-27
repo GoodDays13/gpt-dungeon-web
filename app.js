@@ -1,22 +1,19 @@
 const messageForm = document.getElementById("message-form");
 const messageInput = document.getElementById("message");
 const messagesDiv = document.getElementById("messages");
+const messageSubmitButton = document.getElementById("button");
 const resetButton = document.getElementById("reset-button");
 const resetImage = resetButton.querySelector("img");
 
 function setInputHeight() {
-    const lineHeight = parseInt(getComputedStyle(messageInput).lineHeight);
-    const paddingTop = parseInt(getComputedStyle(messageInput).paddingTop);
-    const paddingBottom = parseInt(getComputedStyle(messageInput).paddingBottom);
-    const border = parseInt(getComputedStyle(messageInput).borderWidth);
-    const minHeight = lineHeight + paddingTop + paddingBottom + border * 2;
-
-    messageInput.style.height = `${minHeight}px`;
-    const height = Math.max(minHeight, messageInput.scrollHeight);
-    messageInput.style.height = `${height}px`;
-    const button = document.getElementById("button")
-    button.style.height = `${minHeight + parseInt(getComputedStyle(button).borderWidth)}px`
-}
+    const lineHeight = parseFloat(window.getComputedStyle(messageInput).lineHeight);
+    const padding = parseFloat(window.getComputedStyle(messageInput).paddingTop) + parseFloat(window.getComputedStyle(messageInput).paddingBottom);
+    const border = parseFloat(window.getComputedStyle(messageInput).borderTopWidth) + parseFloat(window.getComputedStyle(messageInput).borderBottomWidth);
+    const lines = messageInput.value.split('\n').length;
+  
+    messageInput.style.height = `${lineHeight * lines}px`
+    messageSubmitButton.style.height = `${lineHeight + padding + border}px`
+  }
 
 
 function colorQuotes(message) {
@@ -165,9 +162,7 @@ messageInput.addEventListener('keypress', function (event) {
     }
 });
 
-messageInput.addEventListener('input', function () {
-    setInputHeight()
-})
+messageInput.addEventListener('input', setInputHeight);
 
 messageForm.addEventListener("submit", handleFormSubmit);
 
