@@ -37,8 +37,14 @@ function colorQuotes(message) {
             formattedMessage += '"</span>';
         }
     }
-    return formattedMessage
+    return formattedMessage;
+}
 
+function formatMessage(message) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(message, "text/html");
+    const text = doc.body.textContent;
+    return colorQuotes(text).replace(/\n/g, "<br>")
 }
 
 
@@ -52,7 +58,9 @@ function displayMessage(message) {
         messageContainer.classList.add("user");
     }
 
-    messageContainer.innerHTML = `<p>${colorQuotes(message.content)}</p>`;
+    // Replace newlines with <br> tags
+    const formattedMessage = formatMessage(message.content);
+    messageContainer.innerHTML = `<p>${formattedMessage}</p>`;
     messagesDiv.insertBefore(messageContainer, messagesDiv.firstChild);
 }
 
