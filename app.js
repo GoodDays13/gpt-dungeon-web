@@ -44,7 +44,8 @@ function formatMessage(message) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(message, "text/html");
     const text = doc.body.textContent;
-    return colorQuotes(text).replace(/\n/g, "<br>")
+    const out = colorQuotes(text).replace(/\n/g, "<br>")
+    return out == '' ? '[error]' : out
 }
 
 
