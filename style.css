@@ -14,6 +14,15 @@ body {
     flex-direction: column;
 }
 
+@media screen and (min-width: 800px) {
+    body {
+        border-style: solid;
+        border-color: #282c34;
+        border-top: 0;
+        border-bottom: 0;
+    }
+}
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -30,16 +39,16 @@ body {
 
 .spin-once {
     animation: spin .7s linear;
-  }
-  
-  @keyframes spin {
+}
+
+@keyframes spin {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     100% {
-      transform: rotate(-360deg);
+        transform: rotate(-360deg);
     }
-  }
+}
 
 h1 {
     margin: 0;
@@ -130,11 +139,14 @@ form>textarea {
     background-color: #333538;
     color: inherit;
     border-radius: 6px;
+    border-style: none;
 }
 
 form>button {
     flex: 0 0 auto;
     align-self: flex-end;
+    border-style: solid;
     border-radius: 10px;
+    border-style: none;
     background-color: #a9abbb;
 }
