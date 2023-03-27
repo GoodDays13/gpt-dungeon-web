@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GPT Dungeon</title>
-    <link rel="stylesheet" type="text/css" href="./style.css">
-  </head>
-  <body>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>GPT Dungeon</title>
+  <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+
+<body>
+  <div class="header">
     <h1>GPT Dungeon</h1>
-    <div id="messages"></div>
-    <form id="message-form">
-      <label for="message" style="margin-right: 10px;">Message:</label>
-      <textarea type="text" id="message" name="message" autocomplete="off"></textarea>
-      <button type="submit" id="button">Send</button>
-    </form>
-    <script src="./app.js"></script>
-  </body>
+    <div>
+      <button type="button" id="reset-button">
+        <img src="refresh-icon.png" width="35px">
+      </button>
+    </div>
+  </div>
+
+  <div id="messages"></div>
+  <form id="message-form">
+    <label for="message" style="margin-right: 10px;">Message:</label>
+    <textarea type="text" id="message" name="message" autocomplete="off"></textarea>
+    <button type="submit" id="button">Send</button>
+  </form>
+  <script src="./app.js"></script>
+</body>
+
 </html>

@@ -1,6 +1,8 @@
 const messageForm = document.getElementById("message-form");
 const messageInput = document.getElementById("message");
 const messagesDiv = document.getElementById("messages");
+const resetButton = document.getElementById("reset-button");
+const resetImage = resetButton.querySelector("img");
 
 function setInputHeight() {
     const lineHeight = parseInt(getComputedStyle(messageInput).lineHeight);
@@ -66,6 +68,10 @@ function displayMessage(message) {
 function displayHistory(history) {
     messagesDiv.innerHTML = "";
     history.forEach(displayMessage);
+}
+
+function clearHistory() {
+
 }
 
 function getCookie(name) {
@@ -135,6 +141,25 @@ function handleFormSubmit(event) {
     }
 }
 
+function resetConversation() {
+    fetch('https://87f8-72-49-59-104.ngrok.io/resetConversation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: historyID })
+    })
+        .then(response => response.json())
+        .then(data => {
+            while (messagesDiv.firstChild) {
+                messagesDiv.removeChild(messagesDiv.lastChild);
+            }
+            displayHistory(data.response);
+        })
+        .catch(error => {
+            console.error(error)
+            displayMessage({ "role": "assistant", "content": error.message });
+        });
+}
+
 messageInput.addEventListener('keypress', function (event) {
     if (event.key === 'Enter' && !event.shiftKey && !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
         event.preventDefault(); // prevent line break
@@ -142,8 +167,19 @@ messageInput.addEventListener('keypress', function (event) {
     }
 });
 
-messageInput.addEventListener('input', function (event) {
+messageInput.addEventListener('input', function () {
     setInputHeight()
 })
 
 messageForm.addEventListener("submit", handleFormSubmit);
+
+resetButton.addEventListener("click", function () {
+    if (resetImage.classList.contains("spin-once")) {
+        return; // Ignore click if spin animation is active
+    }
+    resetImage.classList.add("spin-once");
+    setTimeout(function () {
+        resetImage.classList.remove("spin-once");
+    }, 1000); // Remove class after 1 second
+    resetConversation();
+});
