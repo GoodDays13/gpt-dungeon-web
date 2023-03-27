@@ -40,7 +40,7 @@ function colorQuotes(message) {
 }
 
 function formatMessage(message) {
-    const text = message.replace(/</g, '&lt;')replace(/>/g, '&gt;');
+    const text = message.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     const out = colorQuotes(text).replace(/\n/g, "<br>")
     return out == '' ? '[error]' : out
 }
