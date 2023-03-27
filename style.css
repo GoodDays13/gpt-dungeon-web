@@ -135,6 +135,7 @@ form>textarea {
     resize: none;
     padding: 5px;
     padding-left: 8px;
+    margin-left: 4px;
     margin-right: 4px;
     background-color: #333538;
     color: inherit;
