@@ -1,6 +1,3 @@
-// Initialize the history variable with some sample messages
-let history = [];
-
 const messageForm = document.getElementById("message-form");
 const messageInput = document.getElementById("message");
 const messagesDiv = document.getElementById("messages");
@@ -66,14 +63,41 @@ function displayMessage(message) {
 }
 
 
-function displayHistory() {
+function displayHistory(history) {
     messagesDiv.innerHTML = "";
     history.forEach(displayMessage);
 }
 
+function getCookie(name) {
+    const value = "; " + document.cookie;
+    const parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
+let historyID = getCookie('historyID');
+if (!historyID) historyID = ''
+console.log(`historyID: ${historyID}`)
+
+fetch('https://87f8-72-49-59-104.ngrok.io/getHistory', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: historyID })
+})
+    .then(response => response.json())
+    .then(data => {
+        const response = data.response;
+        historyID = response[0]
+        document.cookie = `historyID=${historyID}`;
+        displayHistory(response[1])
+    })
+    .catch(error => {
+        console.error(error)
+        const errorMessage = { "role": "assistant", "content": error.message }
+        displayMessage(errorMessage);
+    });
+
+
 setInputHeight()
-history.push({ 'role': 'assistant', 'content': 'Describe the kind of story that you want.' })
-displayHistory()
 
 function handleFormSubmit(event) {
     event.preventDefault();
@@ -83,10 +107,8 @@ function handleFormSubmit(event) {
     const message = messageInput.value.trim();
     if (message) {
         const userMessage = { "role": "user", "content": message };
-        history.push(userMessage);
         displayMessage(userMessage);
         messageInput.value = "";
-        setInputHeight()
 
         // Disable the message input field
         messageInput.disabled = true;
@@ -95,21 +117,15 @@ function handleFormSubmit(event) {
         fetch('https://87f8-72-49-59-104.ngrok.io/getResponse', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ history: history })
+            body: JSON.stringify({ id: historyID, message: userMessage })
         })
             .then(response => response.json())
             .then(data => {
-                const response = data.response;
-                const message = { "role": "assistant", "content": response }
-                history.push(message);
-                displayMessage(message);
-                //messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to bottom after displaying server response
+                displayMessage(data.response);
             })
             .catch(error => {
                 console.error(error)
-                const errorMessage = { "role": "assistant", "content": error.message }
-                displayMessage(errorMessage);
-                history.pop()
+                displayMessage({ "role": "assistant", "content": error.message });
             })
             .finally(() => {
                 // Re-enable the message input field after the server responds or errors
