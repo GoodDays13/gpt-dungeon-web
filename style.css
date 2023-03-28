@@ -73,6 +73,7 @@ h1 {
     overflow-y: scroll;
     padding: 20px;
     touch-action: pan-y;
+    --size: 38px;
 }
 
 /* hide the scrollbar */
@@ -100,11 +101,11 @@ h1 {
 
 @keyframes come-in {
 	0% {
-		transform: translateY(56px);
+		transform: translateY(calc(var(--size) + 30px));
 	}
 }
 
-.message {
+.move-up {
 	animation: come-in .5s ease-out;
 }
 

@@ -56,6 +56,17 @@ function displayMessage(message) {
     const formattedMessage = formatMessage(message.content);
     messageContainer.innerHTML = `<p class="content">${formattedMessage}</p>`;
     messagesDiv.insertBefore(messageContainer, messagesDiv.firstChild);
+    const style = getComputedStyle(messageContainer.firstChild)
+    messagesDiv.style.setProperty('--size', style.height)
+    const children = Array.from(messagesDiv.children)
+    children.forEach((child) => {
+        child.classList.add("move-up")
+    })
+    setTimeout(function () {
+        children.forEach((child) => {
+            child.classList.remove("move-up")
+        })
+    }, 500);
 }
 
 
