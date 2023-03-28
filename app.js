@@ -12,7 +12,7 @@ function setInputHeight() {
 	const style = getComputedStyle(messageInput);
 	messageInput.style.height = '1px'
 	let height = messageInput.scrollHeight;
-	height -= parseInt(style.paddingTop) + parseInt(paddingBottom);
+	height -= parseInt(style.paddingTop) + parseInt(style.paddingBottom);
 	messageInput.style.height = `${height}px`
 }
 
