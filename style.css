@@ -176,3 +176,7 @@ form>button {
 form>button:hover {
     background-color: #7e829a;
 }
+
+form>button:active {
+    filter: none;
+}
