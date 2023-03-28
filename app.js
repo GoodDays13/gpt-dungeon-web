@@ -6,8 +6,6 @@ const resetButton = document.getElementById("reset-button");
 const resetImage = resetButton.querySelector("img");
 const deleteChoice = document.getElementById('choice')
 
-messageSubmitButton.style.height = `${messageInput.scrollHeight}px`
-
 function setInputHeight() {
 	const style = getComputedStyle(messageInput);
 	messageInput.style.height = '1px'
@@ -100,6 +98,7 @@ fetch('https://87f8-72-49-59-104.ngrok.io/getHistory', {
 
 
 setInputHeight()
+messageSubmitButton.style.height = `${messageInput.scrollHeight}px`
 
 function handleFormSubmit(event) {
     event.preventDefault();
