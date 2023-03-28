@@ -37,8 +37,12 @@ body {
     cursor: pointer;
 }
 
-.spin-once {
-    animation: spin .7s linear;
+.hidden {
+    display: none;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
 }
 
 @keyframes spin {

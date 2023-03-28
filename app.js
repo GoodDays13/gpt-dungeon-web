@@ -4,16 +4,17 @@ const messagesDiv = document.getElementById("messages");
 const messageSubmitButton = document.getElementById("button");
 const resetButton = document.getElementById("reset-button");
 const resetImage = resetButton.querySelector("img");
+const deleteChoice = document.getElementById('choice')
 
 function setInputHeight() {
     const lineHeight = parseFloat(window.getComputedStyle(messageInput).lineHeight);
     const padding = parseFloat(window.getComputedStyle(messageInput).paddingTop) + parseFloat(window.getComputedStyle(messageInput).paddingBottom);
     const border = parseFloat(window.getComputedStyle(messageInput).borderTopWidth) + parseFloat(window.getComputedStyle(messageInput).borderBottomWidth);
     const lines = messageInput.value.split('\n').length;
-  
+
     messageInput.style.height = `${lineHeight * lines}px`
     messageSubmitButton.style.height = `${lineHeight + padding + border}px`
-  }
+}
 
 
 function colorQuotes(message) {
@@ -152,6 +153,9 @@ function resetConversation() {
         .catch(error => {
             console.error(error)
             displayMessage({ "role": "assistant", "content": error.message });
+        })
+        .finally(() => {
+            resetButton.className = '';
         });
 }
 
@@ -167,12 +171,24 @@ messageInput.addEventListener('input', setInputHeight);
 messageForm.addEventListener("submit", handleFormSubmit);
 
 resetButton.addEventListener("click", function () {
-    if (resetImage.classList.contains("spin-once")) {
-        return; // Ignore click if spin animation is active
+    if (!resetButton.className) {
+        resetButton.className = 'hidden'
+        document.getElementById('choice').className = ''
     }
-    resetImage.classList.add("spin-once");
-    setTimeout(function () {
-        resetImage.classList.remove("spin-once");
-    }, 1000); // Remove class after 1 second
-    resetConversation();
 });
+
+document.getElementById('confirm').addEventListener("click", () => {
+    resetButton.className = 'spin'
+    deleteChoice.className = 'hidden'
+    resetConversation()
+})
+document.getElementById('cancel').addEventListener("click", () => {
+    resetButton.className = ''
+    deleteChoice.className = 'hidden'
+})
+
+// deleteChoice.children.forEach((child) => {
+//     console.log(child)
+// })
+
+deleteChoice.className = 'hidden'
