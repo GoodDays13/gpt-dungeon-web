@@ -6,14 +6,14 @@ const resetButton = document.getElementById("reset-button");
 const resetImage = resetButton.querySelector("img");
 const deleteChoice = document.getElementById('choice')
 
-function setInputHeight() {
-    const lineHeight = parseFloat(window.getComputedStyle(messageInput).lineHeight);
-    const padding = parseFloat(window.getComputedStyle(messageInput).paddingTop) + parseFloat(window.getComputedStyle(messageInput).paddingBottom);
-    const border = parseFloat(window.getComputedStyle(messageInput).borderTopWidth) + parseFloat(window.getComputedStyle(messageInput).borderBottomWidth);
-    const lines = messageInput.value.split('\n').length;
+messageSubmitButton.style.height = `${messageInput.scrollHeight}px`
 
-    messageInput.style.height = `${lineHeight * lines}px`
-    messageSubmitButton.style.height = `${lineHeight + padding + border}px`
+function setInputHeight() {
+	const style = getComputedStyle(messageInput);
+	messageInput.style.height = '1px'
+	let height = messageInput.scrollHeight;
+	height -= parseInt(style.paddingTop) + parseInt(paddingBottom);
+	messageInput.style.height = `${height}px`
 }
 
 
