@@ -98,6 +98,16 @@ h1 {
     /* set the background color of the scrollbar thumb when hovering */
 }
 
+@keyframes come-in {
+	0% {
+		transform: translateY(56px);
+	}
+}
+
+.message {
+	animation: come-in .5s ease-out;
+}
+
 .message .content {
     background-color: #3e424c;
     border-radius: 5px;
