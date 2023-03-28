@@ -37,6 +37,10 @@ body {
     cursor: pointer;
 }
 
+.header button:hover {
+    filter:brightness(70%)
+}
+
 .hidden {
     display: none;
 }
@@ -154,4 +158,9 @@ form>button {
     border-radius: 10px;
     border-style: none;
     background-color: #a9abbb;
+    cursor: pointer;
+}
+
+form>button:hover {
+    background-color: #7e829a;
 }
