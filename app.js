@@ -77,17 +77,7 @@ function displayHistory(history) {
     history.forEach(displayMessage);
 }
 
-function clearHistory() {
-
-}
-
-function getCookie(name) {
-    const value = "; " + document.cookie;
-    const parts = value.split("; " + name + "=");
-    if (parts.length == 2) return parts.pop().split(";").shift();
-}
-
-let historyID = getCookie('historyID');
+let historyID = localStorage.getItem('historyID');
 if (!historyID) historyID = ''
 
 fetch(`${server}/getHistory`, {
@@ -100,7 +90,7 @@ fetch(`${server}/getHistory`, {
         const response = data.response;
         historyID = response[0]
         console.log(`historyID: ${historyID}`)
-        document.cookie = `historyID=${historyID}`;
+        localStorage.setItem("historyID", historyID)
         displayHistory(response[1])
     })
     .catch(error => {
