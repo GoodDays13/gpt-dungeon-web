@@ -6,6 +6,8 @@ const resetButton = document.getElementById("reset-button");
 const resetImage = resetButton.querySelector("img");
 const deleteChoice = document.getElementById('choice')
 
+const server = "https://48ca-72-49-59-104.ngrok.io"
+
 function setInputHeight() {
 	const style = getComputedStyle(messageInput);
 	messageInput.style.height = '1px'
@@ -88,7 +90,7 @@ function getCookie(name) {
 let historyID = getCookie('historyID');
 if (!historyID) historyID = ''
 
-fetch('https://87f8-72-49-59-104.ngrok.io/getHistory', {
+fetch(`${server}/getHistory`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id: historyID })
@@ -126,7 +128,7 @@ function handleFormSubmit(event) {
         messageInput.disabled = true;
 
         // Send input data to server and handle response
-        fetch('https://87f8-72-49-59-104.ngrok.io/getResponse', {
+        fetch(`${server}/getResponse`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: historyID, message: message })
@@ -148,7 +150,7 @@ function handleFormSubmit(event) {
 }
 
 function resetConversation() {
-    fetch('https://87f8-72-49-59-104.ngrok.io/resetConversation', {
+    fetch(`${server}/resetConversation`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: historyID })
