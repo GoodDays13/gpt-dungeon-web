@@ -48,8 +48,13 @@ function displayMessage(message) {
     const messageContainer = document.createElement("div");
     messageContainer.classList.add("message");
 
+    button = undefined;
+
     if (message.role === "assistant") {
         messageContainer.classList.add("assistant");
+        button = document.createElement("button")
+        button.className = "copy"
+        buttonSetup(button)
     } else if (message.role === "user") {
         messageContainer.classList.add("user");
     }
@@ -57,6 +62,9 @@ function displayMessage(message) {
     // Replace newlines with <br> tags
     const formattedMessage = formatMessage(message.content);
     messageContainer.innerHTML = `<p class="content">${formattedMessage}</p>`;
+    if (button) {
+        messageContainer.appendChild(button)
+    }
     messagesDiv.insertBefore(messageContainer, messagesDiv.firstChild);
     const style = getComputedStyle(messageContainer.firstChild)
     messagesDiv.style.setProperty('--size', style.height)
@@ -69,6 +77,18 @@ function displayMessage(message) {
             child.classList.remove("move-up")
         })
     }, 500);
+}
+
+function buttonSetup(button) {
+    button.className = 'copy'
+    button.textContent = "Copy"
+    button.addEventListener('click', () => {
+        navigator.clipboard.writeText(button.parentElement.firstChild.firstChild.data);
+        button.textContent = "Copied"
+    });
+    button.addEventListener('mouseleave', () => {
+        button.textContent = "Copy"
+    })
 }
 
 
