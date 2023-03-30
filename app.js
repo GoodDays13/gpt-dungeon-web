@@ -87,17 +87,17 @@ function moveMessagesAnim(height) {
 function buttonSetup(button) {
     if (Array.from(button.parentElement.classList).includes('user')) {
         button.className = 'revert'
-        button.textContent = "Revert"
+        button.textContent = "Undo"
         button.addEventListener('click', () => { // why is this not creating an event listener
-            if (button.textContent !== 'Revert') {
+            if (button.textContent !== 'Undo') {
                 revertTo(button)
-                button.textContent = 'Revert'
+                button.textContent = 'Undo'
             } else if (Array.from(messagesDiv.firstChild.classList).includes('assistant')) {
                 button.textContent = 'Really?'
             }
         });
         button.addEventListener('mouseleave', () => {
-            button.textContent = "Revert"
+            button.textContent = "Undo"
         })
     } else {
         button.className = 'copy'
@@ -237,13 +237,23 @@ function revertTo(item) {
     const bottom = messagesDiv.getBoundingClientRect().bottom
         - parseInt(getComputedStyle(messagesDiv).paddingBottom);
     const heightChange = topMessage - bottom;
-    console.log(topMessage, bottom, heightChange)
-    for (i = 0; i < index + 1; i++) {
-        const style = getComputedStyle(messagesDiv.firstChild);
-        messagesDiv.removeChild(messagesDiv.firstChild);
-    }
-    messagesDiv.scrollTop = 0
-    moveMessagesAnim(heightChange)
+    fetch(`${server}/revertTo`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: historyID, amount: index + 1 })
+    })
+        .then(() => {
+            for (i = 0; i < index + 1; i++) {
+                const style = getComputedStyle(messagesDiv.firstChild);
+                messagesDiv.removeChild(messagesDiv.firstChild);
+            }
+            messagesDiv.scrollTop = 0
+            moveMessagesAnim(heightChange)
+        })
+        .catch(error => {
+            console.error(error)
+            displayMessage({ "role": "assistant", "content": error.message });
+        });
 }
 
 deleteChoice.className = 'hidden'
