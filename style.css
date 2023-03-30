@@ -112,7 +112,6 @@ h1 {
 .message {
     padding-top: 1em;
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 
@@ -127,6 +126,7 @@ h1 {
 }
 
 .message.assistant {
+    justify-content: space-between;
 }
 
 .message.assistant .content {
@@ -143,11 +143,11 @@ h1 {
 }
 
 .message.user {
+    justify-content: flex-end;
 }
 
 .message.user .content {
     max-width: calc(min(80%, 400px));
-    align-self: flex-end;
     background-color: #4c4f5a;
 }
 
