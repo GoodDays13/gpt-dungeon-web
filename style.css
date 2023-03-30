@@ -133,7 +133,7 @@ h1 {
 }
 
 .copy {
-    display: none;
+    visibility: hidden;
     margin-left: 10px;
 }
 

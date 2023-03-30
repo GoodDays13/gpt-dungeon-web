@@ -92,10 +92,13 @@ function buttonSetup(button) {
             if (button.textContent !== 'Revert') {
                 revertTo(button)
                 button.textContent = 'Revert'
-            } else {
+            } else if (Array.from(messagesDiv.firstChild.classList).includes('assistant')) {
                 button.textContent = 'Really?'
             }
         });
+        button.addEventListener('mouseleave', () => {
+            button.textContent = "Revert"
+        })
     } else {
         button.className = 'copy'
         button.textContent = "Copy"
@@ -228,15 +231,19 @@ document.getElementById('cancel').addEventListener("click", () => {
 })
 
 function revertTo(item) {
-
-    index = Array.from(messagesDiv.children).indexOf(item.parentElement);
-    heightChange = 0
+    const messages = Array.from(messagesDiv.children);
+    index = messages.indexOf(item.parentElement);
+    const topMessage = messages[index+1].getBoundingClientRect().bottom
+    const bottom = messagesDiv.getBoundingClientRect().bottom
+        - parseInt(getComputedStyle(messagesDiv).paddingBottom);
+    const heightChange = topMessage - bottom;
+    console.log(topMessage, bottom, heightChange)
     for (i = 0; i < index + 1; i++) {
         const style = getComputedStyle(messagesDiv.firstChild);
-        heightChange += parseInt(style.height) + parseInt(style.paddingTop)
         messagesDiv.removeChild(messagesDiv.firstChild);
     }
-    moveMessagesAnim(-heightChange)
+    messagesDiv.scrollTop = 0
+    moveMessagesAnim(heightChange)
 }
 
 deleteChoice.className = 'hidden'
