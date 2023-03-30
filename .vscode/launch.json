@@ -22,7 +22,7 @@
             "type": "msedge",
             "request": "launch",
             "name": "Open index.html",
-            "file": "c:\\Users\\Kaiden\\OneDriveless_documents\\Github\\GoodDays13.github.io\\index.html"
+            "file": "${workspaceFolder}/index.html"
         }
     ]
 }

@@ -103,7 +103,7 @@ h1 {
 
 @keyframes come-in {
 	0% {
-		transform: translateY(calc(var(--size) + 30px));
+		transform: translateY(var(--size));
 	}
 }
 
@@ -114,6 +114,7 @@ h1 {
 .message {
     padding-top: 1em;
     display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -127,10 +128,6 @@ h1 {
     margin: 0;
 }
 
-.message.assistant {
-    justify-content: space-between;
-}
-
 .message.assistant .content {
     background-color: #2c313d;
 }
@@ -140,12 +137,14 @@ h1 {
     margin-left: 10px;
 }
 
-.message.assistant:hover .copy {
-    display: block;
+.revert {
+    visibility: hidden;
+    margin-right: 10px;
 }
 
-.message.user {
-    justify-content: flex-end;
+.message:hover button {
+    display: block;
+    visibility: visible;
 }
 
 .message.user .content {

@@ -9,11 +9,11 @@ const deleteChoice = document.getElementById('choice')
 const server = "https://48ca-72-49-59-104.ngrok.io"
 
 function setInputHeight() {
-	const style = getComputedStyle(messageInput);
-	messageInput.style.height = '1px'
-	let height = messageInput.scrollHeight;
-	height -= parseInt(style.paddingTop) + parseInt(style.paddingBottom);
-	messageInput.style.height = `${height}px`
+    const style = getComputedStyle(messageInput);
+    messageInput.style.height = '1px'
+    let height = messageInput.scrollHeight;
+    height -= parseInt(style.paddingTop) + parseInt(style.paddingBottom);
+    messageInput.style.height = `${height}px`
 }
 
 
@@ -52,9 +52,6 @@ function displayMessage(message) {
 
     if (message.role === "assistant") {
         messageContainer.classList.add("assistant");
-        button = document.createElement("button")
-        button.className = "copy"
-        buttonSetup(button)
     } else if (message.role === "user") {
         messageContainer.classList.add("user");
     }
@@ -62,33 +59,54 @@ function displayMessage(message) {
     // Replace newlines with <br> tags
     const formattedMessage = formatMessage(message.content);
     messageContainer.innerHTML = `<p class="content">${formattedMessage}</p>`;
-    if (button) {
-        messageContainer.appendChild(button)
+    if (message.role === "user") {
+        button = messageContainer.insertBefore(document.createElement("button"), messageContainer.firstChild)
+    } else if (message.role === "assistant") {
+        button = messageContainer.appendChild(document.createElement("button"))
     }
+    buttonSetup(button)
     messagesDiv.insertBefore(messageContainer, messagesDiv.firstChild);
-    const style = getComputedStyle(messageContainer.firstChild)
-    messagesDiv.style.setProperty('--size', style.height)
-    const children = Array.from(messagesDiv.children)
+    const style = getComputedStyle(messageContainer);
+    const height = parseInt(style.height) + parseInt(style.paddingTop)
+    moveMessagesAnim(height);
+}
+
+function moveMessagesAnim(height) {
+    messagesDiv.style.setProperty('--size', `${height}px`);
+    const children = Array.from(messagesDiv.children);
     children.forEach((child) => {
-        child.classList.add("move-up")
-    })
+        child.classList.add("move-up");
+    });
     setTimeout(function () {
         children.forEach((child) => {
-            child.classList.remove("move-up")
-        })
+            child.classList.remove("move-up");
+        });
     }, 500);
 }
 
 function buttonSetup(button) {
-    button.className = 'copy'
-    button.textContent = "Copy"
-    button.addEventListener('click', () => {
-        navigator.clipboard.writeText(button.parentElement.firstChild.firstChild.data);
-        button.textContent = "Copied"
-    });
-    button.addEventListener('mouseleave', () => {
+    if (Array.from(button.parentElement.classList).includes('user')) {
+        button.className = 'revert'
+        button.textContent = "Revert"
+        button.addEventListener('click', () => { // why is this not creating an event listener
+            if (button.textContent !== 'Revert') {
+                revertTo(button)
+                button.textContent = 'Revert'
+            } else {
+                button.textContent = 'Really?'
+            }
+        });
+    } else {
+        button.className = 'copy'
         button.textContent = "Copy"
-    })
+        button.addEventListener('click', () => { // but this is
+            navigator.clipboard.writeText(button.parentElement.firstChild.firstChild.data);
+            button.textContent = "Copied"
+        });
+        button.addEventListener('mouseleave', () => {
+            button.textContent = "Copy"
+        })
+    }
 }
 
 
@@ -168,7 +186,7 @@ function resetConversation() {
         .then(response => response.json())
         .then(data => {
             while (messagesDiv.firstChild) {
-                messagesDiv.removeChild(messagesDiv.lastChild);
+                messagesDiv.removeChild(messagesDiv.firstChild);
             }
             displayHistory(data.response);
         })
@@ -209,8 +227,16 @@ document.getElementById('cancel').addEventListener("click", () => {
     deleteChoice.className = 'hidden'
 })
 
-// deleteChoice.children.forEach((child) => {
-//     console.log(child)
-// })
+function revertTo(item) {
+
+    index = Array.from(messagesDiv.children).indexOf(item.parentElement);
+    heightChange = 0
+    for (i = 0; i < index + 1; i++) {
+        const style = getComputedStyle(messagesDiv.firstChild);
+        heightChange += parseInt(style.height) + parseInt(style.paddingTop)
+        messagesDiv.removeChild(messagesDiv.firstChild);
+    }
+    moveMessagesAnim(-heightChange)
+}
 
 deleteChoice.className = 'hidden'
