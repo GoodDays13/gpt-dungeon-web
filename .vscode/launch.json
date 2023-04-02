@@ -12,17 +12,17 @@
             "file": "${workspaceFolder}/index.html"
         },
         {
+            "type": "msedge",
+            "request": "launch",
+            "name": "Open index.html in edge",
+            "file": "${workspaceFolder}/index.html"
+        },
+        {
             "name": "Attach to Chrome",
             "port": 9222,
             "request": "attach",
             "type": "chrome",
             "webRoot": "${workspaceFolder}"
-        },
-        {
-            "type": "msedge",
-            "request": "launch",
-            "name": "Open index.html",
-            "file": "${workspaceFolder}/index.html"
         }
     ]
 }
