@@ -16,7 +16,6 @@ function setInputHeight() {
     messageInput.style.height = `${height}px`
 }
 
-
 function colorQuotes(message) {
     let formattedMessage = '';
     let quote = false;
@@ -39,10 +38,10 @@ function colorQuotes(message) {
 
 function formatMessage(message) {
     const text = message.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    // Replace newlines with <br> tags
     const out = colorQuotes(text).replace(/\n/g, "<br>")
     return out == '' ? '[error]' : out
 }
-
 
 function displayMessage(message) {
     const messageContainer = document.createElement("div");
@@ -56,7 +55,6 @@ function displayMessage(message) {
         messageContainer.classList.add("user");
     }
 
-    // Replace newlines with <br> tags
     const formattedMessage = formatMessage(message.content);
     messageContainer.innerHTML = `<p class="content">${formattedMessage}</p>`;
     button = messageContainer.appendChild(document.createElement("button"))
@@ -85,7 +83,7 @@ function buttonSetup(button) {
     if (Array.from(button.parentElement.classList).includes('user')) {
         button.className = 'revert'
         button.textContent = "Undo"
-        button.addEventListener('click', () => { // why is this not creating an event listener
+        button.addEventListener('click', () => {
             if (button.textContent !== 'Undo') {
                 revertTo(button)
                 button.textContent = 'Undo'
@@ -99,7 +97,7 @@ function buttonSetup(button) {
     } else {
         button.className = 'copy'
         button.textContent = "Copy"
-        button.addEventListener('click', () => { // but this is
+        button.addEventListener('click', () => {
             navigator.clipboard.writeText(button.parentElement.firstChild.firstChild.data);
             button.textContent = "Copied"
         });
@@ -108,7 +106,6 @@ function buttonSetup(button) {
         })
     }
 }
-
 
 function displayHistory(history) {
     messagesDiv.innerHTML = "";
@@ -230,7 +227,7 @@ document.getElementById('cancel').addEventListener("click", () => {
 function revertTo(item) {
     const messages = Array.from(messagesDiv.children);
     index = messages.indexOf(item.parentElement);
-    const topMessage = messages[index+1].getBoundingClientRect().bottom
+    const topMessage = messages[index + 1].getBoundingClientRect().bottom
     const bottom = messagesDiv.getBoundingClientRect().bottom
         - parseInt(getComputedStyle(messagesDiv).paddingBottom);
     const heightChange = topMessage - bottom;
