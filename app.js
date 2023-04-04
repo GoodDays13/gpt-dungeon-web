@@ -59,13 +59,10 @@ function displayMessage(message) {
     // Replace newlines with <br> tags
     const formattedMessage = formatMessage(message.content);
     messageContainer.innerHTML = `<p class="content">${formattedMessage}</p>`;
-    if (message.role === "user") {
-        button = messageContainer.insertBefore(document.createElement("button"), messageContainer.firstChild)
-    } else if (message.role === "assistant") {
-        button = messageContainer.appendChild(document.createElement("button"))
-    }
+    button = messageContainer.appendChild(document.createElement("button"))
     buttonSetup(button)
     messagesDiv.insertBefore(messageContainer, messagesDiv.firstChild);
+
     const style = getComputedStyle(messageContainer);
     const height = parseInt(style.height) + parseInt(style.paddingTop)
     moveMessagesAnim(height);

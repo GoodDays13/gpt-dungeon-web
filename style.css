@@ -148,7 +148,7 @@ h1 {
 }
 
 .message.user {
-    justify-content: flex-end;
+    flex-direction: row-reverse;
 }
 
 .message.user .content {
